@@ -47,7 +47,7 @@ uv sync
 ONNXファイルは[Releases](https://github.com/Kazuhito00/GLiNER2.5-Decide-ONNX-CPU/releases/tag/v0.0.1)に置いています（リポジトリには含めていません）。<br>
 以下のスクリプトで `models/onnx/onnx/` に取得します。標準ライブラリのHTTPSのみで動き、gitもgit-lfsも不要です。
 ```bash
-uv run python download_model.py
+uv run download_model.py
 ```
 - `model.onnx` と `model.onnx_data`（合計 約1.7 GB）を取得し、スクリプトに固定したSHA-256と照合します（不一致ならファイルを削除して停止）
 - 取得済みなら何もせず、中断した場合は同じコマンドで続きから再開します
@@ -56,10 +56,10 @@ uv run python download_model.py
 
 他の取得方法です。
 ```bash
-uv run python download_model.py --list                        # variant一覧
-uv run python download_model.py --source hf                   # fp32をHugging Faceから取得
-uv run python download_model.py --variant q4f16               # 小さいがCPUでは遅い（Hugging Face）
-uv run --group export python download_model.py --self-export  # checkpointから自前でエクスポート
+uv run download_model.py --list                        # variant一覧
+uv run download_model.py --source hf                   # fp32をHugging Faceから取得
+uv run download_model.py --variant q4f16               # 小さいがCPUでは遅い（Hugging Face）
+uv run --group export download_model.py --self-export  # checkpointから自前でエクスポート
 ```
 
 | variant | サイズ | argmax | CPU median |
@@ -74,7 +74,7 @@ uv run --group export python download_model.py --self-export  # checkpointから
 
 ### 実行例(Python)
 ```bash
-uv run python demo_inference_text.py
+uv run demo_inference_text.py
 ```
 
 ```python
@@ -106,8 +106,8 @@ d.decide("The export button crashes in Safari but works in Chrome.", [
 
 # Verification
 ```bash
-uv run python verify/run_all.py                                 # 全ゲート一括
-uv run --with tokenizers python verify/run_all.py --full-fuzz   # Rust tokenizersとの全件突き合わせ
+uv run verify/run_all.py                                 # 全ゲート一括
+uv run --with tokenizers verify/run_all.py --full-fuzz   # Rust tokenizersとの全件突き合わせ
 ```
 
 | ゲート | 内容 | 必要なもの |

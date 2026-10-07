@@ -46,7 +46,7 @@ uv sync
 The ONNX files are in [Releases](https://github.com/Kazuhito00/GLiNER2.5-Decide-ONNX-CPU/releases/tag/v0.0.1) (they are not in the repository).<br>
 The script below fetches them into `models/onnx/onnx/`. It uses plain HTTPS from the standard library; neither git nor git-lfs is needed.
 ```bash
-uv run python download_model.py
+uv run download_model.py
 ```
 - Downloads `model.onnx` and `model.onnx_data` (about 1.7 GB in total) and checks them against the SHA-256 pinned in the script (on a mismatch the file is deleted and the script stops)
 - Does nothing if the files are already there, and resumes an interrupted download when run again
@@ -55,10 +55,10 @@ uv run python download_model.py
 
 Other ways to get a model.
 ```bash
-uv run python download_model.py --list                        # list the variants
-uv run python download_model.py --source hf                   # fp32 from Hugging Face
-uv run python download_model.py --variant q4f16               # smaller but slow on CPU (Hugging Face)
-uv run --group export python download_model.py --self-export  # export from the original checkpoint
+uv run download_model.py --list                        # list the variants
+uv run download_model.py --source hf                   # fp32 from Hugging Face
+uv run download_model.py --variant q4f16               # smaller but slow on CPU (Hugging Face)
+uv run --group export download_model.py --self-export  # export from the original checkpoint
 ```
 
 | variant | size | argmax | CPU median |
@@ -73,7 +73,7 @@ uv run --group export python download_model.py --self-export  # export from the 
 
 ### Example (Python)
 ```bash
-uv run python demo_inference_text.py
+uv run demo_inference_text.py
 ```
 
 ```python
@@ -105,8 +105,8 @@ This model is text only, so there is no image demo.
 
 # Verification
 ```bash
-uv run python verify/run_all.py                                 # all gates
-uv run --with tokenizers python verify/run_all.py --full-fuzz   # exhaustive comparison with the Rust tokenizers
+uv run verify/run_all.py                                 # all gates
+uv run --with tokenizers verify/run_all.py --full-fuzz   # exhaustive comparison with the Rust tokenizers
 ```
 
 | Gate | What it checks | Needs |
