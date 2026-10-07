@@ -220,7 +220,7 @@ __marimo__/
 .streamlit/secrets.toml
 
 # ---- this project -----------------------------------------------------------------------------
-# Model weights (every variant's .onnx / .onnx_data, and the self-export checkpoint): fetched by export/prepare_model.py, never committed. The small files next to them in models/ (config,
+# Model weights (every variant's .onnx / .onnx_data, and the self-export checkpoint): fetched by download_model.py, never committed. The small files next to them in models/ (config,
 # tokenizer, model card) are committed so that a clone has the tokenizer and the configuration without downloading anything.
 models/**/*.onnx
 models/**/*.onnx_data
