@@ -75,7 +75,7 @@ export/
 verify/
   run_all.py            全ゲート一括
 artifacts/            golden.json（検証の正解データ）、report.md
-models/               ONNX と checkpoint（gitignore。ショートカットではなく実体のファイルを置く）
+models/               ONNX と設定・トークナイザ（重み *.onnx / *.onnx_data / *.safetensors だけ gitignore。小さい設定ファイルはコミットする）
 pyproject.toml        実行時依存は 2 つ。`export` グループは書き出しと検証の oracle 用
 ```
 

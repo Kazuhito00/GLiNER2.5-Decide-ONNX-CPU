@@ -220,8 +220,11 @@ __marimo__/
 .streamlit/secrets.toml
 
 # ---- this project -----------------------------------------------------------------------------
-# Model weights and exports: fetched by export/prepare_model.py or generated, never committed.
-models/
+# Model weights (every variant's .onnx / .onnx_data, and the self-export checkpoint): fetched by export/prepare_model.py, never committed. The small files next to them in models/ (config,
+# tokenizer, model card) are committed so that a clone has the tokenizer and the configuration without downloading anything.
+models/**/*.onnx
+models/**/*.onnx_data
+models/**/*.safetensors
 # Upstream sources cloned for reference while porting.
 ref/
 # Golden data IS committed (it is the oracle). Derived logits are not.

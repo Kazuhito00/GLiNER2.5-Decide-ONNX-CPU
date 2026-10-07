@@ -2,3 +2,5 @@
 *.py text eol=lf
 *.md text eol=lf
 *.json text eol=lf
+# downloaded model files are stored byte for byte
+models/** -text
