@@ -1,0 +1,689 @@
+[
+ {
+  "text": "My payouts have failed three times this week and nobody replied to my emails.",
+  "questions": [
+   [
+    "team",
+    [
+     "payments",
+     "account",
+     "other"
+    ],
+    null
+   ],
+   [
+    "urgent",
+    [
+     "yes",
+     "no"
+    ],
+    null
+   ]
+  ],
+  "input_ids": [
+   287,
+   128003,
+   511,
+   287,
+   128007,
+   3213,
+   128007,
+   914,
+   128007,
+   340,
+   1263,
+   1263,
+   128001,
+   287,
+   128003,
+   9178,
+   287,
+   128007,
+   2489,
+   128007,
+   363,
+   1263,
+   1263,
+   128002,
+   312,
+   27652,
+   286,
+   2506,
+   475,
+   631,
+   291,
+   542,
+   263,
+   5400,
+   6781,
+   264,
+   312,
+   4548,
+   323
+  ],
+  "marker_positions": [
+   4,
+   6,
+   8,
+   17,
+   19
+  ],
+  "probabilities": [
+   [
+    0.6516934037208557,
+    0.1726057529449463,
+    0.175700843334198
+   ],
+   [
+    0.5959698557853699,
+    0.4040301442146301
+   ]
+  ],
+  "result": {
+   "team": {
+    "label": "payments",
+    "confidence": 0.6516934037208557
+   },
+   "urgent": {
+    "label": "yes",
+    "confidence": 0.5959698557853699
+   }
+  }
+ },
+ {
+  "text": "Hi, I was charged twice for my Pro subscription this month, please fix.",
+  "questions": [
+   [
+    "Which team should handle this?",
+    [
+     "billing team",
+     "technical support",
+     "sales"
+    ],
+    {
+     "billing team": "charges, refunds, invoices",
+     "technical support": "bugs, outages",
+     "sales": "pricing, upgrades"
+    }
+   ],
+   [
+    "Is the customer angry?",
+    [
+     "yes",
+     "no"
+    ],
+    null
+   ]
+  ],
+  "input_ids": [
+   287,
+   128003,
+   2597,
+   511,
+   403,
+   1997,
+   291,
+   302,
+   128010,
+   9833,
+   511,
+   294,
+   2521,
+   261,
+   18929,
+   261,
+   18262,
+   128010,
+   2064,
+   523,
+   294,
+   7967,
+   261,
+   27989,
+   128010,
+   1160,
+   294,
+   4260,
+   261,
+   9276,
+   287,
+   128007,
+   9833,
+   511,
+   128007,
+   2064,
+   523,
+   128007,
+   1160,
+   1263,
+   1263,
+   128001,
+   287,
+   128003,
+   273,
+   268,
+   262,
+   1099,
+   5355,
+   302,
+   287,
+   128007,
+   2489,
+   128007,
+   363,
+   1263,
+   1263,
+   128002,
+   8595,
+   366,
+   584,
+   284,
+   2824,
+   2736,
+   270,
+   312,
+   2636,
+   5534,
+   291,
+   788,
+   366,
+   811,
+   2760,
+   323
+  ],
+  "marker_positions": [
+   31,
+   34,
+   37,
+   51,
+   53
+  ],
+  "probabilities": [
+   [
+    0.630079448223114,
+    0.13768073916435242,
+    0.23223985731601715
+   ],
+   [
+    0.5256946682929993,
+    0.47430527210235596
+   ]
+  ],
+  "result": {
+   "Which team should handle this?": {
+    "label": "billing team",
+    "confidence": 0.630079448223114
+   },
+   "Is the customer angry?": {
+    "label": "yes",
+    "confidence": 0.5256946682929993
+   }
+  }
+ },
+ {
+  "text": "The export button crashes in Safari but works in Chrome. Not blocking, we told users to switch browsers.",
+  "questions": [
+   [
+    "How severe is this bug?",
+    [
+     "cosmetic",
+     "degraded but there is a workaround",
+     "blocking"
+    ],
+    null
+   ],
+   [
+    "Is the bug browser-specific?",
+    [
+     "no",
+     "yes"
+    ],
+    null
+   ],
+   [
+    "Should this be escalated?",
+    [
+     "no",
+     "yes"
+    ],
+    null
+   ]
+  ],
+  "input_ids": [
+   287,
+   128003,
+   577,
+   3567,
+   269,
+   291,
+   5554,
+   302,
+   287,
+   128007,
+   9703,
+   128007,
+   32981,
+   304,
+   343,
+   269,
+   266,
+   37219,
+   128007,
+   8751,
+   1263,
+   1263,
+   128001,
+   287,
+   128003,
+   273,
+   268,
+   262,
+   5554,
+   2672,
+   271,
+   6694,
+   302,
+   287,
+   128007,
+   363,
+   128007,
+   2489,
+   1263,
+   1263,
+   128001,
+   287,
+   128003,
+   3432,
+   291,
+   282,
+   30084,
+   302,
+   287,
+   128007,
+   363,
+   128007,
+   2489,
+   1263,
+   1263,
+   128002,
+   262,
+   6021,
+   1946,
+   12544,
+   267,
+   18300,
+   304,
+   885,
+   267,
+   11021,
+   323,
+   298,
+   8751,
+   366,
+   301,
+   732,
+   1133,
+   264,
+   2925,
+   14212,
+   323
+  ],
+  "marker_positions": [
+   9,
+   11,
+   18,
+   34,
+   36,
+   49,
+   51
+  ],
+  "probabilities": [
+   [
+    0.2580675780773163,
+    0.5448737144470215,
+    0.19705860316753387
+   ],
+   [
+    0.33439356088638306,
+    0.6656064987182617
+   ],
+   [
+    0.9483123421669006,
+    0.05168767273426056
+   ]
+  ],
+  "result": {
+   "How severe is this bug?": {
+    "label": "degraded but there is a workaround",
+    "confidence": 0.5448737144470215
+   },
+   "Is the bug browser-specific?": {
+    "label": "yes",
+    "confidence": 0.6656064987182617
+   },
+   "Should this be escalated?": {
+    "label": "no",
+    "confidence": 0.9483123421669006
+   }
+  }
+ },
+ {
+  "text": "URGENT: production database is down, all customers affected, CEO is asking for updates every 5 minutes",
+  "questions": [
+   [
+    "priority",
+    [
+     "low",
+     "medium",
+     "high",
+     "critical"
+    ],
+    null
+   ],
+   [
+    "Is this a security incident?",
+    [
+     "no",
+     "yes"
+    ],
+    null
+   ]
+  ],
+  "input_ids": [
+   287,
+   128003,
+   3983,
+   287,
+   128007,
+   759,
+   128007,
+   2434,
+   128007,
+   459,
+   128007,
+   1923,
+   1263,
+   1263,
+   128001,
+   287,
+   128003,
+   273,
+   268,
+   291,
+   266,
+   971,
+   3273,
+   302,
+   287,
+   128007,
+   363,
+   128007,
+   2489,
+   1263,
+   1263,
+   128002,
+   9178,
+   877,
+   1117,
+   2763,
+   269,
+   444,
+   366,
+   305,
+   887,
+   2815,
+   366,
+   101312,
+   269,
+   2331,
+   270,
+   2797,
+   469,
+   456,
+   768,
+   323
+  ],
+  "marker_positions": [
+   4,
+   6,
+   8,
+   10,
+   25,
+   27
+  ],
+  "probabilities": [
+   [
+    0.07098295539617538,
+    0.08963384479284286,
+    0.15709108114242554,
+    0.682292103767395
+   ],
+   [
+    0.4506857097148895,
+    0.5493142604827881
+   ]
+  ],
+  "result": {
+   "priority": {
+    "label": "critical",
+    "confidence": 0.682292103767395
+   },
+   "Is this a security incident?": {
+    "label": "yes",
+    "confidence": 0.5493142604827881
+   }
+  }
+ },
+ {
+  "text": "Thanks so much for the quick fix yesterday, everything works great now!",
+  "questions": [
+   [
+    "sentiment",
+    [
+     "negative",
+     "neutral",
+     "positive"
+    ],
+    null
+   ],
+   [
+    "Does the customer need a reply?",
+    [
+     "no",
+     "yes"
+    ],
+    null
+   ]
+  ],
+  "input_ids": [
+   287,
+   128003,
+   9481,
+   287,
+   128007,
+   2330,
+   128007,
+   5678,
+   128007,
+   1453,
+   1263,
+   1263,
+   128001,
+   287,
+   128003,
+   2467,
+   262,
+   1099,
+   389,
+   266,
+   4806,
+   302,
+   287,
+   128007,
+   363,
+   128007,
+   2489,
+   1263,
+   1263,
+   128002,
+   1644,
+   324,
+   400,
+   270,
+   262,
+   1538,
+   2760,
+   2807,
+   366,
+   758,
+   885,
+   426,
+   394,
+   1084
+  ],
+  "marker_positions": [
+   4,
+   6,
+   8,
+   23,
+   25
+  ],
+  "probabilities": [
+   [
+    0.007729754317551851,
+    0.01089081447571516,
+    0.9813794493675232
+   ],
+   [
+    0.6610891819000244,
+    0.33891087770462036
+   ]
+  ],
+  "result": {
+   "sentiment": {
+    "label": "positive",
+    "confidence": 0.9813794493675232
+   },
+   "Does the customer need a reply?": {
+    "label": "no",
+    "confidence": 0.6610891819000244
+   }
+  }
+ },
+ {
+  "text": "Can you send me the invoice for March? Also my login stopped working on the mobile app.",
+  "questions": [
+   [
+    "Which team should handle this?",
+    [
+     "billing",
+     "technical support",
+     "sales"
+    ],
+    null
+   ],
+   [
+    "How many separate requests are in this message?",
+    [
+     "one",
+     "two",
+     "three or more"
+    ],
+    null
+   ]
+  ],
+  "input_ids": [
+   287,
+   128003,
+   2597,
+   511,
+   403,
+   1997,
+   291,
+   302,
+   287,
+   128007,
+   9833,
+   128007,
+   2064,
+   523,
+   128007,
+   1160,
+   1263,
+   1263,
+   128001,
+   287,
+   128003,
+   577,
+   386,
+   2081,
+   4115,
+   281,
+   267,
+   291,
+   1424,
+   302,
+   287,
+   128007,
+   311,
+   128007,
+   375,
+   128007,
+   475,
+   289,
+   310,
+   1263,
+   1263,
+   128002,
+   295,
+   274,
+   1339,
+   351,
+   262,
+   10462,
+   270,
+   9409,
+   1102,
+   327,
+   312,
+   6607,
+   2564,
+   560,
+   277,
+   262,
+   1380,
+   1410,
+   323
+  ],
+  "marker_positions": [
+   9,
+   11,
+   14,
+   31,
+   33,
+   35
+  ],
+  "probabilities": [
+   [
+    0.4982786774635315,
+    0.43980884552001953,
+    0.06191256642341614
+   ],
+   [
+    0.2300770878791809,
+    0.40099838376045227,
+    0.3689245283603668
+   ]
+  ],
+  "result": {
+   "Which team should handle this?": {
+    "label": "billing",
+    "confidence": 0.4982786774635315
+   },
+   "How many separate requests are in this message?": {
+    "label": "two",
+    "confidence": 0.40099838376045227
+   }
+  }
+ }
+]

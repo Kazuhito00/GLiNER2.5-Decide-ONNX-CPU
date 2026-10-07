@@ -1,0 +1,7 @@
+# Only for export/ and the oracle gates in verify/. Never imported at runtime.
+torch>=2.6            # --index-url https://download.pytorch.org/whl/cpu
+torchvision>=0.21
+transformers>=5.14
+onnx>=1.17
+onnxscript>=0.1
+tokenizers>=0.20      # the oracle for check_tokenizer_fuzz.py

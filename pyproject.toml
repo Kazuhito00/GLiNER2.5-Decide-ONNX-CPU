@@ -1,0 +1,27 @@
+[project]
+name = "gliner-decide-onnx-cpu"
+version = "0.1.0"
+description = "GLiNER2.5-Decide (typed classification) on CPU with onnxruntime + numpy only: no torch, no transformers, no tokenizers"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+# Runtime. That is the whole list.
+dependencies = [
+    "onnxruntime>=1.20",
+    "numpy>=1.26",
+]
+
+[dependency-groups]
+# Only for export/ and the oracle gates in verify/. Never imported at runtime.
+export = [
+    "torch>=2.6",
+    "torchvision>=0.21",
+    "transformers>=5.14",
+    "onnx>=1.17",
+    "onnxscript>=0.1",
+    "tokenizers>=0.20",   # the oracle for verify/check_tokenizer_fuzz.py
+]
+
+# Not a package to build: the code is run from the checkout (`uv run python demo_inference_text.py`).
+[tool.uv]
+package = false

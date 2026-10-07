@@ -218,3 +218,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---- this project -----------------------------------------------------------------------------
+# Model weights and exports: fetched by export/prepare_model.py or generated, never committed.
+models/
+# Upstream sources cloned for reference while porting.
+ref/
+# Golden data IS committed (it is the oracle). Derived logits are not.
+artifacts/torch_logits.npz
+artifacts/*.log
