@@ -2,7 +2,7 @@
 
 # GLiNER2.5-Decide-ONNX-CPU
 
-[fastino/GLiNER2.5-Decide](https://huggingface.co/fastino/GLiNER2.5-Decide)を、onnxruntime と numpy だけでCPU推論する最小依存の推論実装です。<br>
+[fastino/GLiNER2.5-Decide](https://huggingface.co/fastino/GLiNER2.5-Decide)を、onnxruntime と numpy だけでCPU推論する最小依存の推論実装です。 ※GPU推論も可<br>
 torch も transformers も tokenizers は未使用。
 
 # Features
