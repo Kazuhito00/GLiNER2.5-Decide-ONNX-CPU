@@ -5,9 +5,10 @@ Ports the parts of ``gliner2.processor.Processor`` that the classification
 
   ``( [P] prompt ( [L] l1 [L] l2 ... ) ) [SEP_STRUCT] ( [P] ... ) [SEP_TEXT] w w ... .``
 
-Only ``tokenizers`` (the Rust fast tokenizer) is required; the shipped
-``tokenizer.json`` already contains the ten GLiNER2 special tokens, so the
-runtime ``add_special_tokens`` call the Python library makes is a no-op here.
+Tokenization uses the pure-Python ``UnigramTokenizer`` (no ``tokenizers``
+dependency); the shipped ``tokenizer.json`` already contains the ten GLiNER2
+special tokens, so the runtime ``add_special_tokens`` call the Python library
+makes is a no-op here.
 """
 
 from __future__ import annotations

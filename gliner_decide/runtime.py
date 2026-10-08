@@ -1,6 +1,6 @@
 """Minimal torch-free runtime for the GLiNER2.5-Decide classification path.
 
-Dependencies: onnxruntime, tokenizers, numpy. Nothing else.
+Dependencies: onnxruntime, numpy. Nothing else.
 """
 
 from __future__ import annotations
