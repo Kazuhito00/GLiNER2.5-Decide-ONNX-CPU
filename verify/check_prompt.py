@@ -1,4 +1,4 @@
-"""Step 3-1: reproduce gliner2's input_ids / marker_positions with tokenizers only."""
+"""Step 3-1: reproduce gliner2's input_ids / marker_positions with the pure-Python encoder."""
 import json, sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from gliner_decide.protocol import DecideEncoder

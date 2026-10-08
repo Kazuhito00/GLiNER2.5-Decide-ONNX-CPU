@@ -88,13 +88,13 @@ max|Δlogit| = 7.153e-07
 
 ### 境界・縮退ケース
 
-`scripts/check_limits.py` で全 9 項目 PASS。
+`verify/check_limits.py` で全 9 項目 PASS。
 512 トークン超の打ち切り、512 ちょうど、スキーマだけで 512 超（400 ラベル → `ValueError`）、
 空文字、ラベル 1 個、日本語。
 
 ## 4. トークナイザの純 Python 移植
 
-`tokenizers` を落とすため、`jev_decide/sp_unigram.py` に
+`tokenizers` を落とすため、`gliner_decide/tokenizer.py` に
 SentencePiece Unigram を移植した。実装したのはこのチェックポイントが
 実際に宣言しているパイプラインのみで、それ以外（BPE / WordPiece /
 precompiled charsmap / byte_fallback）はロード時に明示的に拒否する。
@@ -107,7 +107,7 @@ added tokens → Replace(2連続以上の空白・CR・LF・TAB → " ") → NFC
 
 ### 一致検証
 
-`scripts/fuzz_tokenizer.py` で Rust 実装と突き合わせ:
+`verify/check_tokenizer_fuzz.py` で Rust 実装と突き合わせ:
 
 ```
 cases: 312706   mismatches: 0
@@ -184,7 +184,7 @@ ONNX の前向き計算が 200ms 超なので、**トークナイズは全体の
 
 ## 6. 自前エクスポートの再現性
 
-`scripts/export_onnx.py` で、ローカルの `weights/torch` から自分で書き出した。
+`export/export_onnx.py` で、ローカルの `models/torch` から自分で書き出した。
 
 - torch 2.14.0+cpu / `dynamo=True` / opset 17 / 所要 **95.7 秒**
 - 出力サイズ **1744089088 バイト — 配布版とバイト単位で同一**
@@ -201,18 +201,18 @@ Windows の cp932 コンソールでは `PYTHONUTF8=1` が必要（gliner2 が�
 
 ## 7. 実装
 
-`jev_decide/` — 実行時依存は `onnxruntime` / `numpy` のみ。
+`gliner_decide/` — 実行時依存は `onnxruntime` / `numpy` のみ。
 
 | ファイル | 役割 |
 |---|---|
-| `sp_unigram.py` | SentencePiece Unigram の純 Python 実装（正規化・Metaspace・Viterbi・added token 2 パス） |
-| `encoding.py` | `gliner2.processor` の分類レイアウトを移植（word 分割・末尾ピリオド付与・`[P]`/`[L]` 配置・marker 位置算出・512 打ち切り） |
+| `tokenizer.py` | SentencePiece Unigram の純 Python 実装（正規化・Metaspace・Viterbi・added token 2 パス） |
+| `protocol.py` | `gliner2.processor` の分類レイアウトを移植（word 分割・末尾ピリオド付与・`[P]`/`[L]` 配置・marker 位置算出・512 打ち切り） |
 | `runtime.py` | ORT セッション、問ごとの softmax、`classify_text` 互換 API |
-| `demo.py` | CLI デモ |
+| `demo_inference_text.py` | CLI デモ |
 
 ```python
-from jev_decide import Decider
-d = Decider("weights/onnx", variant="fp32")
+from gliner_decide import Decider
+d = Decider("models/onnx", variant="fp32")
 d.classify_text("I was charged twice and support never replied.",
                 {"intent": ["refund_request", "order_status", "other"]})
 # -> {"intent": "refund_request"}
@@ -238,7 +238,7 @@ d.classify_text("I was charged twice and support never replied.",
 - 制約付きデコード（beam / exact）は未実装。問ごとの独立 softmax のみ（公式の `independent` デコーダ相当）
 - 複数ラベル選択の問（sigmoid）は未実装。全問を排他的な単一選択として扱う
 - バッチ推論は未実装（グラフは `[batch, …]` 対応済みなので拡張は容易）
-- `sp_unigram.py` はこのチェックポイントのパイプライン専用。
+- `tokenizer.py` はこのチェックポイントのパイプライン専用。
   他の tokenizer.json を渡すとロード時に `ValueError` で弾く（黙って誤動作しない）
 
 ## 9. 再現手順
@@ -247,13 +247,12 @@ d.classify_text("I was charged twice and support never replied.",
 uv venv .venv-bare --python 3.12
 uv pip install --python .venv-bare/Scripts/python.exe --no-deps onnxruntime numpy
 
-.venv-bare\Scripts\python.exe scripts\check_tokens.py           # 6/6 バイト一致
-.venv-bare\Scripts\python.exe scripts\verify.py --variant fp32  # 13/13, 4.4e-07
-.venv-bare\Scripts\python.exe scripts\check_limits.py           # 境界 9 項目
-.venv-bare\Scripts\python.exe scripts\bench.py --variant fp32
+.venv-bare\Scripts\python.exe verify\check_prompt.py            # 6/6 バイト一致
+.venv-bare\Scripts\python.exe verify\verify.py --variant fp32   # 13/13, 4.4e-07
+.venv-bare\Scripts\python.exe verify\check_limits.py            # 境界 9 項目
+.venv-bare\Scripts\python.exe verify\bench.py --variant fp32
 .venv-bare\Scripts\python.exe -c "import tokenizers"            # ModuleNotFoundError になること
 
 # トークナイザの一致検証だけは tokenizers が要る（比較対象として）
-.venv-onnx\Scripts\python.exe scripts\fuzz_tokenizer.py 250000  # mismatches: 0
-.venv-onnx\Scripts\python.exe scripts\bench_tokenizer.py
+.venv-onnx\Scripts\python.exe verify\check_tokenizer_fuzz.py 250000  # mismatches: 0
 ```

@@ -52,7 +52,7 @@ class Decider:
             raise ValueError(f"unknown variant {variant!r}; pick one of {sorted(VARIANTS)}")
         path = model_dir / "onnx" / VARIANTS[variant]
         if not path.exists():
-            raise FileNotFoundError(f"{path} not found (was it pulled from LFS?)")
+            raise FileNotFoundError(f"{path} not found (download it with `uv run download_model.py`)")
 
         opts = ort.SessionOptions()
         if intra_op_threads:
