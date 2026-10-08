@@ -235,7 +235,8 @@ d.classify_text("I was charged twice and support never replied.",
 - **分類のみ。** NER・関係抽出・構造化抽出は ONNX に含まれない
 - **512 トークン上限。** 超過分は末尾を打ち切り
 - 英語の運用テキストで学習されたモデル。日本語は学習範囲外（変換の問題ではない）
-- 制約付きデコード（beam / exact）は未移植。問ごとの独立 softmax のみ
+- 制約付きデコード（beam / exact）は未実装。問ごとの独立 softmax のみ（公式の `independent` デコーダ相当）
+- 複数ラベル選択の問（sigmoid）は未実装。全問を排他的な単一選択として扱う
 - バッチ推論は未実装（グラフは `[batch, …]` 対応済みなので拡張は容易）
 - `sp_unigram.py` はこのチェックポイントのパイプライン専用。
   他の tokenizer.json を渡すとロード時に `ValueError` で弾く（黙って誤動作しない）

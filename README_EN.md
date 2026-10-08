@@ -132,7 +132,8 @@ uv run --with tokenizers verify/run_all.py --full-fuzz   # exhaustive comparison
 - Classification only. NER, relation extraction and structured extraction are not in the ONNX
 - 512-token limit (the tail is cut off beyond it)
 - The model was trained on English operational text
-- Constrained decoding (beam / exact) is not ported; only independent per-question softmax
+- Constrained decoding (beam / exact) is not implemented. The official `gliner2` can pick the highest-utility combination that satisfies cross-question constraints (`implies`, `excludes`, cardinality, ordinal, etc.); this implementation only takes an independent per-question softmax and picks one label (equivalent to the official `independent` decoder)
+- Multi-label questions (sigmoid) are not implemented. Every question is treated as exclusive, single-choice
 - `tokenizer.py` is specific to this checkpoint and rejects any other tokenizer.json with an exception
 
 # Project Structure

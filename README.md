@@ -133,7 +133,8 @@ uv run --with tokenizers verify/run_all.py --full-fuzz   # Rust tokenizersとの
 - 分類のみです。NER・関係抽出・構造化抽出はONNXに含まれません
 - 512トークン上限です（超過分は末尾を打ち切り）
 - 英語の運用テキストで学習されたモデルです
-- 制約付きデコード（beam / exact）は未移植で、問ごとの独立softmaxのみです
+- 制約付きデコード（beam / exact）は未実装です。公式の `gliner2` では、問をまたぐ制約（`implies`、`excludes`、件数、順序など）を満たす最大効用の組み合わせを選べますが、この実装は問ごとの独立softmaxで1ラベルを選ぶだけです（公式の `independent` デコーダ相当）
+- 複数ラベル選択の問（sigmoid）は未実装です。全問を排他的な単一選択として扱います
 - `tokenizer.py` はこのチェックポイント専用で、他のtokenizer.jsonは例外で弾きます
 
 # Project Structure
