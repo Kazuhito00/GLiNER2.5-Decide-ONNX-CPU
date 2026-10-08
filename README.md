@@ -104,6 +104,26 @@ d.decide("The export button crashes in Safari but works in Chrome.", [
 - `(` `)` は独立した単語で、`[CLS]` / `[SEP]` は付けない
 - 特殊トークンID: `[SEP_STRUCT]`=128001 `[SEP_TEXT]`=128002 `[P]`=128003 `[L]`=128007
 
+### GPUで実行する（任意）
+`--gpu` を付けると、CUDA（または DirectML）で推論します。このonnxruntimeビルドにGPUプロバイダが無い場合は、警告を出してCPUで動きます。
+```bash
+uv run --no-sync demo_inference_text.py --gpu
+uv run --no-sync verify/bench.py --gpu
+```
+```python
+from gliner_decide import Decider
+from gliner_decide.runtime import gpu_providers
+
+d = Decider("models/onnx", variant="fp32", providers=gpu_providers())
+```
+
+必要なものと注意点です。
+- `onnxruntime` の代わりに `onnxruntime-gpu`（Windowsなら `onnxruntime-directml` も可）を入れます。両者は同じ `onnxruntime/` ディレクトリにファイルを書くため、**併存させないでください**。入れ替えたときは `uv pip install --force-reinstall --no-deps onnxruntime-gpu` で入れ直します
+- `uv pip install onnxruntime-gpu` は一度入れても、`uv run` が `pyproject.toml` に合わせて `onnxruntime`（CPU版）を再インストールし、GPUが使えなくなります。**`uv run --no-sync` を使ってください**（`UV_NO_SYNC=1` でも同じです）
+- onnxruntime-gpu 1.30.0 は **CUDA 13.x と cuDNN 9.x** を要求します（動作確認は CUDA 13.4 + cuDNN 9.20 + ドライバ 596.47）。`cublasLt64_13.dll` や `cudnn64_9.dll` が見つからないと、CUDAプロバイダの読み込みに失敗してCPUへ落ちます。Windowsでは cuDNN の `bin\13.2\x64` のようにCUDAバージョン別のサブフォルダをPATHに通す必要があります
+- 実際に使われたプロバイダは、デモの最終行と `verify/bench.py` の出力（`provider`）で確認できます
+- 起動は遅くなります（セッション生成に約10秒、初回推論に約0.5秒）。常駐して何度も推論する用途で効果があります
+
 # Verification
 ```bash
 uv run verify/run_all.py                                 # 全ゲート一括
@@ -117,12 +137,19 @@ uv run --with tokenizers verify/run_all.py --full-fuzz   # Rust tokenizersとの
 | check_limits | 512トークン境界・400ラベル・空文字など9項目 | 実行時依存のみ |
 | check_tokenizer_fuzz | Rust `tokenizers` との突合（既定は約5,200件で不一致0、`--full-fuzz` で312,706ケース） | tokenizers |
 
-### 性能（Core i7-12800H, CPUのみ）
+### 性能（Core i7-12800H）
 3問・約100トークンのケースです。コールドスタートは3.3秒で、1スレッドでも581 msなので、コアを割けない環境でも使えます。
 
 | threads | 1 | 2 | 4 | 8 |
 |---|---:|---:|---:|---:|
 | median | 581 ms | 336 ms | 199 ms | 160 ms |
+
+GPU（`--gpu`、NVIDIA GeForce RTX 3050 Ti Laptop GPU、CUDA 13.4）で同じケースを測った結果です。ウォームアップ後は速いものの、起動は遅くなります。
+
+| | median | p95 | セッション生成 | 初回推論 |
+|---|---:|---:|---:|---:|
+| CPU（4スレッド、同条件で再測定） | 245 ms | 289 ms | 3.4 s | 0.28 s |
+| GPU（CUDA） | 24.5 ms | 32.8 ms | 10.3 s | 0.49 s |
 
 | | パッケージ数 | サイズ |
 |---|---:|---:|

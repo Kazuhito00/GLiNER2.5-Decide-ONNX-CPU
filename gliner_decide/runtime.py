@@ -23,6 +23,15 @@ VARIANTS = {
 }
 
 
+GPU_PROVIDERS = ("CUDAExecutionProvider", "DmlExecutionProvider")
+
+
+def gpu_providers() -> List[str]:
+    """GPU execution providers available in this onnxruntime build, CPU last."""
+    available = ort.get_available_providers()
+    return [p for p in GPU_PROVIDERS if p in available] + ["CPUExecutionProvider"]
+
+
 def softmax(x: np.ndarray) -> np.ndarray:
     e = np.exp(x - x.max())
     return e / e.sum()
@@ -36,6 +45,7 @@ class Decider:
         model_dir: Union[str, pathlib.Path],
         variant: str = "fp32",
         intra_op_threads: Optional[int] = None,
+        providers: Optional[Sequence[str]] = None,
     ):
         model_dir = pathlib.Path(model_dir)
         if variant not in VARIANTS:
@@ -49,7 +59,8 @@ class Decider:
             opts.intra_op_num_threads = intra_op_threads
         self.variant = variant
         self.session = ort.InferenceSession(
-            str(path), sess_options=opts, providers=["CPUExecutionProvider"]
+            str(path), sess_options=opts,
+            providers=list(providers) if providers else ["CPUExecutionProvider"],
         )
         self.encoder = DecideEncoder(model_dir / "tokenizer.json")
 

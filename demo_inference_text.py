@@ -21,6 +21,7 @@ import time
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from gliner_decide import Decider  # noqa: E402
+from gliner_decide.runtime import gpu_providers  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent
 
@@ -56,6 +57,9 @@ def main(argv=None) -> int:
     parser.add_argument("--model", default="models/onnx")
     parser.add_argument("--variant", default="fp32")
     parser.add_argument("--threads", type=int, default=8)
+    parser.add_argument("--gpu", action="store_true",
+                        help="use CUDA / DirectML if this onnxruntime build has it "
+                             "(needs onnxruntime-gpu or onnxruntime-directml); falls back to CPU")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
 
@@ -68,8 +72,18 @@ def main(argv=None) -> int:
             parser.error("give at least one --choice")
 
     started = time.perf_counter()
-    decider = Decider(ROOT / args.model, variant=args.variant, intra_op_threads=args.threads)
+    providers = gpu_providers() if args.gpu else None
+    if args.gpu and providers[0] == "CPUExecutionProvider":
+        print("warning: no GPU provider in this onnxruntime build; running on CPU "
+              "(install onnxruntime-gpu or onnxruntime-directml instead of onnxruntime)",
+              file=sys.stderr)
+    decider = Decider(ROOT / args.model, variant=args.variant,
+                      intra_op_threads=args.threads, providers=providers)
     load = time.perf_counter() - started
+    if args.gpu and providers[0] != "CPUExecutionProvider" \
+            and decider.session.get_providers()[0] == "CPUExecutionProvider":
+        print("warning: %s failed to load; fell back to CPU (check CUDA / cuDNN DLLs on PATH)"
+              % providers[0], file=sys.stderr)
 
     started = time.perf_counter()
     answers = decider.decide(state, questions)
@@ -88,7 +102,8 @@ def main(argv=None) -> int:
         print("%-10s %-30s %.4f\n           %s"
               % (answer["task"], answer["label"], answer["confidence"], spread))
     print("\n%d questions in one forward pass" % len(answers))
-    print("load %.1f s, inference %.3f s (%s)" % (load, elapsed, args.variant))
+    print("load %.1f s, inference %.3f s (%s, %s)"
+          % (load, elapsed, args.variant, decider.session.get_providers()[0]))
     return 0
 
 

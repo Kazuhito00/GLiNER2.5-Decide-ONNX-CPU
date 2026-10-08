@@ -103,6 +103,26 @@ This model is text only, so there is no image demo.
 - `(` and `)` are separate words, and no `[CLS]` / `[SEP]` is added
 - Special token IDs: `[SEP_STRUCT]`=128001 `[SEP_TEXT]`=128002 `[P]`=128003 `[L]`=128007
 
+### Running on GPU (optional)
+Add `--gpu` to run on CUDA (or DirectML). If this onnxruntime build has no GPU provider, it prints a warning and runs on CPU.
+```bash
+uv run --no-sync demo_inference_text.py --gpu
+uv run --no-sync verify/bench.py --gpu
+```
+```python
+from gliner_decide import Decider
+from gliner_decide.runtime import gpu_providers
+
+d = Decider("models/onnx", variant="fp32", providers=gpu_providers())
+```
+
+Requirements and caveats:
+- Install `onnxruntime-gpu` (or `onnxruntime-directml` on Windows) instead of `onnxruntime`. They write into the same `onnxruntime/` directory, so **do not keep both**. After swapping, reinstall with `uv pip install --force-reinstall --no-deps onnxruntime-gpu`
+- Even after installing `onnxruntime-gpu`, `uv run` re-syncs to `pyproject.toml` and reinstalls the CPU `onnxruntime`, which disables the GPU. **Use `uv run --no-sync`** (or set `UV_NO_SYNC=1`)
+- onnxruntime-gpu 1.30.0 requires **CUDA 13.x and cuDNN 9.x** (tested with CUDA 13.4, cuDNN 9.20, driver 596.47). If `cublasLt64_13.dll` or `cudnn64_9.dll` cannot be found, the CUDA provider fails to load and it falls back to CPU. On Windows, put the per-CUDA-version cuDNN folder (e.g. `bin\13.2\x64`) on PATH
+- The provider actually used is shown on the last line of the demo and as `provider` in the `verify/bench.py` output
+- Startup is slower (about 10 s for session creation, about 0.5 s for the first inference). It pays off for long-running processes that infer repeatedly
+
 # Verification
 ```bash
 uv run verify/run_all.py                                 # all gates
@@ -116,12 +136,19 @@ uv run --with tokenizers verify/run_all.py --full-fuzz   # exhaustive comparison
 | check_limits | 9 items such as the 512-token boundary, 400 labels, empty text | run-time dependencies only |
 | check_tokenizer_fuzz | comparison with the Rust `tokenizers` (about 5,200 cases by default, 0 mismatches; 312,706 cases with `--full-fuzz`) | tokenizers |
 
-### Performance (Core i7-12800H, CPU only)
+### Performance (Core i7-12800H)
 3 questions, about 100 tokens. Cold start is 3.3 s, and even one thread takes 581 ms, so it is usable where cores cannot be spared.
 
 | threads | 1 | 2 | 4 | 8 |
 |---|---:|---:|---:|---:|
 | median | 581 ms | 336 ms | 199 ms | 160 ms |
+
+The same case on GPU (`--gpu`, NVIDIA GeForce RTX 3050 Ti Laptop GPU, CUDA 13.4). It is much faster once warmed up, but startup is slower.
+
+| | median | p95 | session creation | first inference |
+|---|---:|---:|---:|---:|
+| CPU (4 threads, re-measured under the same conditions) | 245 ms | 289 ms | 3.4 s | 0.28 s |
+| GPU (CUDA) | 24.5 ms | 32.8 ms | 10.3 s | 0.49 s |
 
 | | packages | size |
 |---|---:|---:|
