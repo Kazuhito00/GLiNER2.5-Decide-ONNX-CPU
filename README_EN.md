@@ -2,7 +2,7 @@
 
 # GLiNER2.5-Decide-ONNX-CPU
 
-A minimal-dependency runtime that runs the classification path of [fastino/GLiNER2.5-Decide](https://huggingface.co/fastino/GLiNER2.5-Decide) (typed decisions) on CPU with only onnxruntime and numpy.<br>
+A minimal-dependency inference implementation that runs the classification path of [fastino/GLiNER2.5-Decide](https://huggingface.co/fastino/GLiNER2.5-Decide) (typed decisions) on CPU with only onnxruntime and numpy.<br>
 It uses no torch, no transformers and no tokenizers.
 
 # Features
@@ -145,7 +145,7 @@ pyproject.toml           # dependencies (two at run time; the export group is fo
 uv.lock                  # uv lock file
 download_model.py        # model download (Releases / Hugging Face) and self-export
 demo_inference_text.py   # inference demo
-gliner_decide/           # runtime (light dependencies only; does not import export/)
+gliner_decide/           # inference implementation (light dependencies only; does not import export/)
   runtime.py             #   ORT session, per-question softmax, classify_text-compatible API
   tokenizer.py           #   pure-Python SentencePiece Unigram
   protocol.py            #   GLiNER2 classification layout (prompt + marker positions)

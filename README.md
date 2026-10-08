@@ -2,7 +2,7 @@
 
 # GLiNER2.5-Decide-ONNX-CPU
 
-[fastino/GLiNER2.5-Decide](https://huggingface.co/fastino/GLiNER2.5-Decide)を、onnxruntime と numpy だけでCPU推論する最小依存のランタイムです。<br>
+[fastino/GLiNER2.5-Decide](https://huggingface.co/fastino/GLiNER2.5-Decide)を、onnxruntime と numpy だけでCPU推論する最小依存の推論実装です。<br>
 torch も transformers も tokenizers は未使用。
 
 # Features
@@ -146,7 +146,7 @@ pyproject.toml           # 依存定義（実行時は2つ。exportグループ�
 uv.lock                  # uvのロックファイル
 download_model.py        # モデル取得（Releases / Hugging Face）、自前エクスポート
 demo_inference_text.py   # 推論デモ
-gliner_decide/           # ランタイム（軽い依存のみ。export/ をimportしない）
+gliner_decide/           # 推論実装（軽い依存のみ。export/ をimportしない）
   runtime.py             #   ORTセッション、問ごとのsoftmax、classify_text互換API
   tokenizer.py           #   SentencePiece Unigramの純Python実装
   protocol.py            #   GLiNER2の分類レイアウト（プロンプト + marker位置）
