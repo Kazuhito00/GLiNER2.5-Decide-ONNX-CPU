@@ -2,8 +2,8 @@
 
 # GLiNER2.5-Decide-ONNX-CPU
 
-A minimal-dependency inference implementation that runs the classification path of [fastino/GLiNER2.5-Decide](https://huggingface.co/fastino/GLiNER2.5-Decide) (typed decisions) on CPU with only onnxruntime and numpy.<br>
-It uses no torch, no transformers and no tokenizers.
+A minimal-dependency inference implementation that runs the classification path of [fastino/GLiNER2.5-Decide](https://huggingface.co/fastino/GLiNER2.5-Decide) (typed decisions) on CPU with only onnxruntime and numpy (GPU inference is also supported).<br>
+It does not use torch, transformers or tokenizers.
 
 # Features
 - Minimal dependencies: only two packages are needed at run time, onnxruntime and numpy (86 MB). `gliner2[local]` is 33 packages and 661 MB
