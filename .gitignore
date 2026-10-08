@@ -230,3 +230,4 @@ ref/
 # Golden data IS committed (it is the oracle). Derived logits are not.
 artifacts/torch_logits.npz
 artifacts/*.log
+/CLAUDE.md
