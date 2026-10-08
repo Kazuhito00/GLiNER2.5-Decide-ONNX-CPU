@@ -118,9 +118,8 @@ d = Decider("models/onnx", variant="fp32", providers=gpu_providers())
 ```
 
 必要なものと注意点です。
-- `onnxruntime` の代わりに `onnxruntime-gpu`（Windowsなら `onnxruntime-directml` も可）を入れます。両者は同じ `onnxruntime/` ディレクトリにファイルを書くため、**併存させないでください**。入れ替えたときは `uv pip install --force-reinstall --no-deps onnxruntime-gpu` で入れ直します
-- `uv pip install onnxruntime-gpu` は一度入れても、`uv run` が `pyproject.toml` に合わせて `onnxruntime`（CPU版）を再インストールし、GPUが使えなくなります。**`uv run --no-sync` を使ってください**（`UV_NO_SYNC=1` でも同じです）
-- onnxruntime-gpu 1.30.0 は **CUDA 13.x と cuDNN 9.x** を要求します（動作確認は CUDA 13.4 + cuDNN 9.20 + ドライバ 596.47）。`cublasLt64_13.dll` や `cudnn64_9.dll` が見つからないと、CUDAプロバイダの読み込みに失敗してCPUへ落ちます。Windowsでは cuDNN の `bin\13.2\x64` のようにCUDAバージョン別のサブフォルダをPATHに通す必要があります
+- `onnxruntime` の代わりに `onnxruntime-gpu`（Windowsなら `onnxruntime-directml` も可）を入れます。両者は同じ `onnxruntime/` ディレクトリにファイルを書くため、併存させないでください。入れ替えたときは `uv pip install --force-reinstall --no-deps onnxruntime-gpu` で入れ直します
+- `uv pip install onnxruntime-gpu` は一度入れても、`uv run` が `pyproject.toml` に合わせて `onnxruntime`（CPU版）を再インストールし、GPUが使えなくなります。`uv run --no-sync` を使ってください（`UV_NO_SYNC=1` でも同じです）
 - 実際に使われたプロバイダは、デモの最終行と `verify/bench.py` の出力（`provider`）で確認できます
 - 起動は遅くなります（セッション生成に約10秒、初回推論に約0.5秒）。常駐して何度も推論する用途で効果があります
 

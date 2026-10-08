@@ -117,9 +117,8 @@ d = Decider("models/onnx", variant="fp32", providers=gpu_providers())
 ```
 
 Requirements and caveats:
-- Install `onnxruntime-gpu` (or `onnxruntime-directml` on Windows) instead of `onnxruntime`. They write into the same `onnxruntime/` directory, so **do not keep both**. After swapping, reinstall with `uv pip install --force-reinstall --no-deps onnxruntime-gpu`
-- Even after installing `onnxruntime-gpu`, `uv run` re-syncs to `pyproject.toml` and reinstalls the CPU `onnxruntime`, which disables the GPU. **Use `uv run --no-sync`** (or set `UV_NO_SYNC=1`)
-- onnxruntime-gpu 1.30.0 requires **CUDA 13.x and cuDNN 9.x** (tested with CUDA 13.4, cuDNN 9.20, driver 596.47). If `cublasLt64_13.dll` or `cudnn64_9.dll` cannot be found, the CUDA provider fails to load and it falls back to CPU. On Windows, put the per-CUDA-version cuDNN folder (e.g. `bin\13.2\x64`) on PATH
+- Install `onnxruntime-gpu` (or `onnxruntime-directml` on Windows) instead of `onnxruntime`. They write into the same `onnxruntime/` directory, so do not keep both. After swapping, reinstall with `uv pip install --force-reinstall --no-deps onnxruntime-gpu`
+- Even after installing `onnxruntime-gpu`, `uv run` re-syncs to `pyproject.toml` and reinstalls the CPU `onnxruntime`, which disables the GPU. Use `uv run --no-sync` (or set `UV_NO_SYNC=1`)
 - The provider actually used is shown on the last line of the demo and as `provider` in the `verify/bench.py` output
 - Startup is slower (about 10 s for session creation, about 0.5 s for the first inference). It pays off for long-running processes that infer repeatedly
 
