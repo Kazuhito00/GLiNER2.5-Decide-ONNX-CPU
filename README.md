@@ -2,8 +2,8 @@
 
 # GLiNER2.5-Decide-ONNX-CPU
 
-[fastino/GLiNER2.5-Decide](https://huggingface.co/fastino/GLiNER2.5-Decide)（型付き判定の分類パス）を、onnxruntime と numpy だけでCPU推論する最小依存のランタイムです。<br>
-torch も transformers も tokenizers も使いません。
+[fastino/GLiNER2.5-Decide](https://huggingface.co/fastino/GLiNER2.5-Decide)を、onnxruntime と numpy だけでCPU推論する最小依存のランタイムです。<br>
+torch も transformers も tokenizers は未使用。
 
 # Features
 以下の特徴があります。
